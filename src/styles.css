@@ -1,0 +1,14 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.title {
+  display: flex;
+  justify-content: center;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
