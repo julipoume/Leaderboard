@@ -14,19 +14,45 @@ class LeaderBoardTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: this.props.users
+      users: this.props.users,
+      propOrder: {
+        property: "",
+        order: ""
+      }
     };
   }
+  //get the order to sort the table
+  getOrder = property => {
+    let order;
+    //if the property to order was click before
+    if (this.state.propOrder.property === property) {
+      order = this.state.propOrder.order === "asc" ? "desc" : "asc";
+    } else {
+      order = "asc";
+    }
+    this.setState({ propOrder: { property: property, order: order } });
+    return order;
+  };
   //to sort the table depending the specific field
-  sortTable = (users, orderBy) => {
-    let arg = users.sort((a, b) =>
-      a[orderBy] > b[orderBy] ? 1 : b[orderBy] > a[orderBy] ? -1 : 0
-    );
-    console.log(arg);
+  sortTable = (users, property, order) => {
+    let arg;
+    if (order === "asc") {
+      arg = users.sort((a, b) =>
+        a[property] > b[property] ? 1 : b[property] > a[property] ? -1 : 0
+      );
+    } else {
+      arg = users.sort((a, b) =>
+        a[property] < b[property] ? 1 : b[property] < a[property] ? -1 : 0
+      );
+    }
     return arg;
   };
-  handleSort = orderBy => {
-    this.setState({ users: this.sortTable(this.props.users, orderBy) });
+  handleSort = orderByProperty => {
+    console.log("handleSort", orderByProperty);
+    var order = this.getOrder(orderByProperty);
+    this.setState({
+      users: this.sortTable(this.props.users, orderByProperty, order)
+    });
   };
   render() {
     const { users } = this.state;
